@@ -102,7 +102,6 @@ class Service implements Runnable {
     public void run() {
 
         while (true) {
-
             try {
                 String str = br.readLine();
                 if ("".equals(str) || str == null) {
@@ -120,16 +119,17 @@ class Service implements Runnable {
                     Socket client = Server.findClient(ip);
                     if (client != null) {
                         clientToClient = new PrintStream(client.getOutputStream());
-                        clientToClient.print(address + "/" + content);
+                        clientToClient.println(address + "/" + content);
+                    } else {
+                        ps.println("你所要对话的客户端不存在...");
                     }
-                    ps.print("你所要对话的客户端不存在...");
                 } else {
                     //群聊
                     Server.getUserSocketMap().forEach((addr, sk) -> {
                         try {
-                            Socket client = Server.findClient(addr);
+                            Socket client = Server.getUserSocketMap().get(addr);
                             toAll = new PrintStream(client.getOutputStream());
-                            toAll.print(str);
+                            toAll.println(str);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

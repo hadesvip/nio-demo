@@ -7,15 +7,17 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 /**
+ * 私聊：用户ip/内容
+ * 群聊: 直接输入内容
  * Created by wangyong on 2017/6/20.
  */
 public class Client {
 
     public static void main(String[] args) throws IOException {
-        startClient();
+        new Client().startClient();
     }
 
-    private static void startClient() {
+    public void startClient() {
         try {
             Socket socket = new Socket("127.0.0.1", 9090);
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,7 +28,7 @@ public class Client {
                 if ("exit".equals(str)) {
                     break;
                 }
-                ps.print(str);
+                ps.println(str);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,13 +46,13 @@ public class Client {
 class AcceptData implements Runnable {
 
     private Socket socket;
-    private BufferedReader bufferedReader;
+    private BufferedReader br;
 
     public AcceptData(Socket socket) {
         this.socket = socket;
 
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +64,7 @@ class AcceptData implements Runnable {
 
         while (true) {
             try {
-                String str = bufferedReader.readLine();
+                String str = br.readLine();
 
                 if ("exit".equals(str)) {
                     System.out.println("有客户端退出了...");
@@ -71,7 +73,7 @@ class AcceptData implements Runnable {
                     continue;
                 }
                 //规定:私聊-->ip/内容，群聊没有/
-                int index = str.lastIndexOf("/");
+                int index = str.indexOf("/");
 
                 //私聊
                 if (index > 0) {
