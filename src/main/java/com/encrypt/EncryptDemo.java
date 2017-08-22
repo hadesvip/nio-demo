@@ -1,7 +1,5 @@
 package com.encrypt;
 
-import javax.crypto.Cipher;
-
 /**
  * java加密的方式:
  * 1.对称加密
