@@ -8,7 +8,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenLocal()
-    maven{
+    maven {
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
     mavenCentral()
@@ -16,9 +16,15 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+
     compile('org.apache.kafka:kafka_2.12:0.10.2.1') {
         exclude group: 'log4j', module: 'log4j'
     }
     compile('org.apache.logging.log4j:log4j-api:2.8.2',
-            'org.apache.logging.log4j:log4j-core:2.8.2')
+            'org.apache.logging.log4j:log4j-core:2.8.2',
+            'org.apache.kafka:kafka_2.12:0.10.2.1',
+            'org.projectlombok:lombok:1.16.18')
 }
+
+
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
