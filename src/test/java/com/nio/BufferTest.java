@@ -20,7 +20,7 @@ import java.security.SecureRandom;
  *
  * limit：第一个不能再读或者写的元素索引，不可能为负数，永远不会超过capacity
  *
- * position: 下一个将要去读或者写的元素的索引
+ * position: 下一个将要去读或者写的元素的索引,不可能为负数，永远不会超过limit
  *
  *
  * Created by wangyong on 2017/8/26.
