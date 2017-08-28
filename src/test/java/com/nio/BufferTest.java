@@ -1,5 +1,4 @@
 package com.nio;
-
 import org.junit.Test;
 
 import java.nio.IntBuffer;
@@ -130,6 +129,7 @@ public class BufferTest {
 
         System.out.println(intBuffer.get());
 
-
     }
+
+
 }
