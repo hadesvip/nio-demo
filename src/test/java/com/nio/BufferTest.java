@@ -45,6 +45,8 @@ import org.junit.Test;
  *
  * Read-only buffers 每一个buffer都是可读的，但是不是每一个buffer都是可写的， 当只读buffer调用改变值的方法时，将会抛出
  * ReadOnlyBufferException 只读buffer内容没法改变，但是limit,mark,position的值可以改变。 缓冲区是否可读可以调用isreadonly方法判断。
+ * 只读buffer，一个普通buffer调用asreadonlybuffer方法会返回一个只读buffer，但是不能将一个只读buffer切换到一个读写buffer。
+ *
  *
  * Thread safety 多个线程并发，buffer不是线程安全。当一个缓冲区被多个线程访问时，需要加入恰当的同步限制访问
  *
@@ -53,6 +55,8 @@ import org.junit.Test;
  *
  * slince 创建一个新的buffer其内容是当前buffer的共享子序列。 新buffer的内容是当前buffer起始是当前buffer的position,改变当前buffer的值在新的buffer是可见的，反义亦然。
  * 两个buffer的position,limit,mark的值是相互独立的。
+ *
+ *
  *
  * Created by wangyong on 2017/8/26.
  */
