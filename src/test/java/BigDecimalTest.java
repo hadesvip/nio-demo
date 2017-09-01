@@ -2,6 +2,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Date;
 import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Test;
 
@@ -32,11 +33,12 @@ public class BigDecimalTest {
 
   @Test
   public void timeTest() {
-    String dateStr = "2017-08-23 17:30:25";
-   // System.out.println(new Date(dateStr));
-    DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
-    System.out.println(
-        DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate());
+    String dateStr = "2017-08-23 17:30";
+//   // System.out.println(new Date(dateStr));
+//    DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
+//    System.out.println(
+//        DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate());
+//    DateTime.parse(dateStr, DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")).toDate();
 
   }
 
