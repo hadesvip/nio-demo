@@ -38,13 +38,25 @@ import org.junit.Test;
  *
  * 1. cancelled-key集合中的每一个key作为一个成员从每一个key set中移除，它的channel取消注册。这个步骤使得cancelled-key 集合为空。
  *
- * 2.底层操作系统会被查询进行一个更新，来去应对每个剩余的channel准备状况，以执行这个key关注的集合标识出来的操作作为selection 操作开始的时候。
+ * 2.底层操作系统会被查询进行一个更新，来去应对每个剩余的channel准备状况，以执行这个key关注的集合标识出来的操作作为selection 操作开始的时候。对于准备好至少有这样一个操作的channel，下面的两个操作将会执行一个：
  *
- * 3. 对于准备好至少有这样一个操作的channel，下面的两个操作将会执行一个：
+ *    1. 如果channel的key还不在selected-key的集合中，那么将会添加到这个set(selected-set)中，它的准备的操作集合被修改以确定通道现在已被报告准备的那些操作,
+ *    在准备集合中记录的任何准备信息都会丢弃掉。
  *
- * 1.
+ *    2. 否则，channel的key已经存在selected-key集合中,因此它的准备操作集合被修改以识别任何新的操作，该通道已在通道中准备就绪。在准备集合中任何准备信息都会被记录下来。
+ *        换句话说，底层系统返回的准备集是位与键当前的准备集之间的位连接
  *
- * Concurrency 并发
+ *    如果这个步骤开始的key set的所有key都有空的关注集合，那么无论selected-key还是任何key的准备操作集合将不会更新。
+ *
+ * 3. 如果步骤2中键被添加到cancelled-key 集合中，就会被作为步骤1处理。
+ *
+ * 不管一个selection的操作堵塞等待着一个或者多个通道变成准备状态，如果是这样，等待多长时间，这是三个selection方法的本质区别。
+ *
+ * Concurrency 并发性
+ * selector自身是安全的，但是它的set并不是安全的。
+ *  一个selector的key和selector的集合在多个并发线程使用时，通常是不安全的。如果一个线程直接修改一个或者多个集合，访问应该通过set的本身进行同步控制。
+ *  通过set的iterator方法返回快速失败：如果set在iterator创建时候被修改，除了执行iterator自己的remove方法其他任何方式，一个 ConcurrentModificationException 异常将会抛出。
+ *
  *
  * @author wangyong
  */
